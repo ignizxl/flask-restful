@@ -1,6 +1,6 @@
 from flask import Flask
-from flask_restful import Api
-
+from helpers.api import api, blueprint
+from helpers.cors import cors
 from resources.IndexResource import IndexResource
 from resources.UsuariosResource import UsuariosResource, UsuarioResource
 
@@ -10,12 +10,9 @@ from resources.UsuariosResource import UsuariosResource, UsuarioResource
 # Database
 
 app = Flask(__name__)
-api = Api(app)
-
-
-api.add_resource(IndexResource, '/')
-api.add_resource(UsuariosResource, '/usuarios')
-api.add_resource(UsuarioResource, '/usuarios/<string:usuario_id>')
+api.__init__(app)
+cors.__init__(app)
+app.register_blueprint(blueprint)
 
 if __name__ == '__main__':
     app.run(debug=True)
